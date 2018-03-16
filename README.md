@@ -53,7 +53,7 @@ Table of Contents
                * [POWER1, POWER2, SQUAREROOT](#power1-power2-squareroot)
                * [STEP](#step)
                * [SAWTOOTH](#sawtooth)
-               * [SPARCWK](#sparcwk)
+               * [SPARKWC](#sparkwc)
 
 <!--te-->
 
@@ -364,6 +364,6 @@ $degradation\_factor = IB$, if $allocated\_mem < required\_mem$.
 
 Memory elasticity model based on **STEP** that captures the spilling behaviour of <u>Hadoop MapReduce</u> containers, particularly of **REDUCE** tasks. Requires defining the `IB` value.
 
-##### SPARCWK
+##### SPARKWC
 
 Memory elasticity model based on **STEP** that captures the spilling behaviour of <u>Spark WordCount</u> containers. Requires defining the `IB` value.
