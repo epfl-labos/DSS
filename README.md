@@ -22,7 +22,40 @@ DSS works by constructing a discrete timeline of events and parsing each event i
 
 ------
 
-[TOC]
+<!--ts-->
+Table of Contents
+=================
+   * [DSS - The Discrete Scheduler Simulator](#dss---the-discrete-scheduler-simulator)
+      * [Installation](#installation)
+         * [Python interpreter](#python-interpreter)
+         * [Requirements](#requirements)
+            * [Python2](#python2)
+            * [PyPy2](#pypy2)
+         * [System-wide installation (optional)](#system-wide-installation-optional)
+      * [Running DSS](#running-dss)
+         * [Quickstart](#quickstart)
+         * [DSS Parameters](#dss-parameters)
+               * [Positional arguments:](#positional-arguments)
+               * [ELASTIC arguments:](#elastic-arguments)
+               * [YARN arguments:](#yarn-arguments)
+               * [Optional arguments:](#optional-arguments)
+               * [PEEK scheduler arguments:](#peek-scheduler-arguments)
+               * [Error injection arguments:](#error-injection-arguments)
+               * [ELASTIC Error injection arguments:](#elastic-error-injection-arguments)
+      * [Advanced usage](#advanced-usage)
+         * [Supported schedulers](#supported-schedulers)
+               * [REGULAR](#regular)
+               * [GREEDY (uses <em>Memory Elasticity</em>)](#greedy-uses-memory-elasticity)
+               * [SMARTG (uses <em>Memory Elasticity</em>)](#smartg-uses-memory-elasticity)
+               * [PEEK (uses <em>Memory Elasticity</em>)](#peek-uses-memory-elasticity)
+               * [SRTF](#srtf)
+         * [Memory Elasticity Modelling](#memory-elasticity-modelling)
+               * [POWER1, POWER2, SQUAREROOT](#power1-power2-squareroot)
+               * [STEP](#step)
+               * [SAWTOOTH](#sawtooth)
+               * [SPARCWK](#sparcwk)
+
+<!--te-->
 
 ------
 
