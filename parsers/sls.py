@@ -44,6 +44,11 @@ class SLSParser(object):
         self.use_meganode = use_meganode
         self.default_task_penalty = default_task_penalty
 
+    @staticmethod
+    def _print_chunk(chunk):
+        for j, line in enumerate(chunk.splitlines()):
+            print '{0:<5}{1}'.format(j+1, line)
+
     def parse_topo(self):
         """ Parse a YARN SLS topology file. This is a JSON file containing multiple rack configurations. """
         json_decoder = JSONDecoder()
@@ -108,8 +113,10 @@ class SLSParser(object):
         """ Parse a YARN SLS trace file. This is a JSON file containing multiple job objects. """
         json_decoder = JSONDecoder()
         job_objects = []
+        value_error_pattern = re.compile('Expecting .+ \(char (\d+)\)$')
         with open(self.sls_file) as sls_file:
             object_chunk = ''
+            last_error_idx = -1
             # Read file in chunks of lines.
             for chunk in lines_per_n(sls_file, LINES_TO_READ):
                 # Remove all whitespace
@@ -134,9 +141,21 @@ class SLSParser(object):
                 while not chunk_parsing_done:
                     try:
                         parse_result = json_decoder.raw_decode(object_chunk)
-                    except ValueError:
-                        # Chunk is not yet complete, keep reading.
-                        break
+                        last_error_idx = -1
+                    except ValueError as e:
+                        m = value_error_pattern.match(e.message)
+                        if m:
+                            # Get the index that the parsing error occurred on.
+                            idx = int(m.group(1))
+
+                            if last_error_idx == -1 or last_error_idx != idx:
+                                # Chunk is not yet complete, keep reading.
+                                last_error_idx = idx
+                                break
+
+                        # The error at the current index was not due to an incomplete chunk.
+                        SLSParser._print_chunk(object_chunk)
+                        raise e
                     # Add decoded job object to array
                     job_objects.append(parse_result[0])
                     # Check if there's trailing data from another object
@@ -144,7 +163,7 @@ class SLSParser(object):
                     if object_end != len(object_chunk):
                         # Trim chunk for the next object
                         object_chunk = object_chunk[object_end + 1:]
-                    else:
+                    if not object_chunk.isspace():
                         chunk_parsing_done = True
 
         return job_objects
