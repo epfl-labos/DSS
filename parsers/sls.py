@@ -13,6 +13,7 @@ LINES_TO_READ = 10
 TASK_NR_KEY = "c.nr"
 TASK_DURATION_KEY = "c.dur"
 TASK_MEMORY_KEY = "c.mem"
+TASK_CORES_KEY = "c.cores"
 TASK_PRIORITY_KEY = "c.prio"
 TASK_TYPE_KEY = "c.type"
 TASK_PENALTY_KEY = "c.penalty"
@@ -217,7 +218,8 @@ class SLSParser(object):
                 yarn_task = YarnPrototypeContainer(
                         num_containers=int(task[TASK_NR_KEY]),
                         duration=int(task[TASK_DURATION_KEY]),
-                        resource=YarnResource(memory_mb=int(task[TASK_MEMORY_KEY]), vcores=1),
+                        resource=YarnResource(memory_mb=int(task[TASK_MEMORY_KEY]),
+                                              vcores=int(task.get(TASK_CORES_KEY, '1'))),
                         priority=int(task[TASK_PRIORITY_KEY]),
                         container_type=YarnContainerType.__members__.get(task[TASK_TYPE_KEY].upper()),
                         job=yarn_j,
